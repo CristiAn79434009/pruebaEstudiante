@@ -1,0 +1,113 @@
+
+<!-- aqui viene el listado de los ESTUDIANTES -->
+<% include ../parcial/_head %>
+<% include ../parcial/_menus %>
+ <div class="container">
+        <div class="page-header">
+          <h1 class="all-tittles">Sistema bibliotecario <small>Administración Usuarios</small></h1>
+        </div>
+    </div>
+    <div class="conteiner-fluid">
+        <ul class="nav nav-tabs nav-justified"  style="font-size: 17px;">
+            <li role="presentation" class="active"><a href="indexE">Estudiantes</a></li>
+           
+        </ul>
+    </div>
+    <!-- <div class="container-fluid"  style="margin: 50px 0;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <img src="assets/img/user03.png" alt="user" class="img-responsive center-box" style="max-width: 110px;">
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
+                Bienvenido a la sección donde se encuentra el listado de estudiantes de la institución, podrás buscar los estudiantes por sección o nombre. Puedes actualizar o eliminar los datos del estudiante.<br>
+                <strong class="text-danger"><i class="zmdi zmdi-alert-triangle"></i> &nbsp; ¡Importante! </strong>Si eliminas el estudiante del sistema se borrarán todos los datos relacionados con él, incluyendo préstamos y registros en la bitácora.
+            </div>
+        </div>
+    </div> -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 lead">
+                <ol class="breadcrumb">
+                    <li><a href="formE">Nuevo estudiante</a></li>
+                    <li class="active">Listado de estudiantes</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="margin: 0 0 2px 0;">
+        <form class="pull-right" style="width: 30% !important;" autocomplete="off">
+            <div class="group-material">
+                <input type="search" style="display: inline-block !important; width: 70%;" class="material-control tooltips-general" placeholder="Buscar estudiante..RU" required pattern="[0-9]{1,6}" maxlength="6" data-toggle="tooltip" data-placement="top" title="Ingrese el R.U.">
+                <button class="btn" style="margin: 0; height: 43px; background-color: transparent !important;">
+                    <i class="zmdi zmdi-search" style="font-size: 25px;"></i>
+                </button>
+            </div>
+        </form>
+        <!-- <h2 class="text-center all-tittles" style="margin: 25px 0; clear: both;">Secciones</h2>
+        <ul class="list-unstyled text-center list-catalog-container">
+            <li class="list-catalog">Sección</li>
+            <li class="list-catalog">Sección</li>
+            <li class="list-catalog">Sección</li>
+            <li class="list-catalog">Sección</li>
+        </ul> -->
+    </div>
+    <div class="container-fluid">
+        <h2 class="text-center all-tittles">listado de Estudiantes</h2>
+        <div class="table-responsive">
+            <div class="div-table" style="margin:0 !important;">
+                <div class="div-table-row div-table-row-list" style="background-color:#DFF0D8; font-weight:bold;">
+                    <div class="div-table-cell" style="width: 6%;">#</div>
+                    <div class="div-table-cell" style="width: 15%;">Apellidos</div>
+                    <div class="div-table-cell" style="width: 15%;">Nombres</div>
+                    <div class="div-table-cell" style="width: 15%;">C.I.</div>
+                    <div class="div-table-cell" style="width: 9%;">R.U.</div>
+                    <div class="div-table-cell" style="width: 9%;">Rol</div>
+                    <div class="div-table-cell" style="width: 9%;">Pago</div>
+                    <!-- <div class="div-table-cell" style="width: 18%;">Sección</div> -->
+                    <div class="div-table-cell" style="width: 9%;">Operacion</div>
+                    <!-- <div class="div-table-cell" style="width: 9%;">Eliminar</div> -->
+                </div>
+            </div>
+        </div>
+        <% for(var i=0; i < resp.user.length; i++) { %>
+            <div class="table-responsive">
+                <div class="div-table" style="margin:0 !important;">
+                    <div class="div-table-row div-table-row-list">
+                            <div class="div-table-cell" style="width: 6%;"><%= i + 1%></div>
+                            <div class="div-table-cell" style="width: 15%;"><%= resp.user[i].apellido %></div>
+                            <div class="div-table-cell" style="width: 15%;"><%= resp.user[i].nombre %></div>
+                            <div class="div-table-cell" style="width: 15%;"><%= resp.user[i].ci %></div> 
+                            <div class="div-table-cell" style="width: 9%;"><%= resp.user[i].ru %></div>
+                            <div class="div-table-cell" style="width: 9%;"><%= resp.user[i].rol %></div>
+                            <div class="div-table-cell" style="width: 9%;">
+                                <a href="/estado/<%= resp.user[i]._id %>" class="<%= resp.user[i].pago ? 'btn btn-success' : 'btn btn-warning'%>"><%= resp.user[i].pago%></a>
+                            </div>   
+                            <div class="div-table-cell" style="width: 9%;">
+                                    
+                                    <a href="/editarU/<%= resp.user[i]._id %>" class="zmdi zmdi-refresh btn btn-info"></a>
+                                    <a href="/delUE/<%= resp.user[i]._id %>" class="zmdi zmdi-delete  btn btn-danger"></a>
+                            </div>  
+                    </div>
+                </div>
+            </div>
+    
+        <% } %> 
+    <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center all-tittles">ayuda del sistema</h4>
+            </div>
+            <div class="modal-body">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore dignissimos qui molestias ipsum officiis unde aliquid consequatur, accusamus delectus asperiores sunt. Quibusdam veniam ipsa accusamus error. Animi mollitia corporis iusto.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="zmdi zmdi-thumb-up"></i> &nbsp; De acuerdo</button>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>
