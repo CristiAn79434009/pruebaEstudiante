@@ -41,9 +41,7 @@ function saveMateria(req,res){
                             materia.gestion=gestion[([gestion.length]-1)].nombre
                             materia.save((err,materiaGuardada)=>{
                                 if(err) res.status(500).send({message:`error al guardar datos: ${err}`})
-                        
                                 res.status(200).send({message:'sucess',materiaGuardada})
-                                
                             })   
                         }else{
                             var h=0
@@ -57,7 +55,6 @@ function saveMateria(req,res){
                                         if(materia[i].gestion==gestion[([gestion.length]-1)].nombre){r++}
                                     }
                                 }
-                                
                             }
                             if(r==0){
                                 if(h>0 || k==materia.length){
@@ -72,9 +69,8 @@ function saveMateria(req,res){
                             
                                     res.status(200).send({message:'sucess',matguar})
                         
-                                })
+                                    })
                                 }else{
-                                // console.log('la materia ya esta registrada ingrese otra')
                                 res.send({message:'la materia ya esta registrada ingrese otra'})
                                 }
                             }else{res.send({message:'la materia ya esta registrada ingrese otra'})}
@@ -84,53 +80,22 @@ function saveMateria(req,res){
         }
     })      
 }
-//funcion para actualizar datos una MATERIA nos e usa
-// function updateMateri(req,res){
-//     let materiaId =req.params.materiaId
-//     let update= req.body
-
-//     Materia.findByIdAndUpdate(materiaId,update,(err,materiaActualizado)=>{
-//         if(err)res.status(500).send({message:`error al actualizar datos ${err}`})
-
-//         res.status(200).send({materiaActualizado})
-//     })
-// }
-//funcion para eliminar una MATERIA nos e usa
-// function deletMateri(req,res){
-//     // console.log(req.body)
-//     let materiaId =req.params.materiaId
-//     console.log(materiaId)
-
-//     Materia.findById(materiaId,(err,materia)=>{
-//         if(err) res.status(500).send({message:`error al eliminar ${err}`})
-
-//         materia.remove(err=>{
-//             if(err) res.status(500).send({message:`error al eliminar: ${err}`})
-//             res.status(200).send({message:'la materia a sido eliminado'})
-//             console.log('uso del metodo delete')
-
-//         })
-//     })
-// }
- //------------------------------eliminar
- async function deletMateria  (req, res, next) {
-       let { id } = req.params;
-       await Materia.remove({_id: id});
-    //    res.status(200).json({
-    //       "msn": "Materia eliminada"
-    //     });
+//------------------------------eliminar materia
+async function deletMateria  (req, res, next) {
+        let { id } = req.params;
+        await Materia.remove({_id: id});
         res.status(200).send({message:'la materia a sido eliminado'})
         
 }
-///funcion para ver que se va editar
+///-----------------------------funcion para ver que materia se va editar
 async function verEdit (req, res, next) {
     const materia = await Materia.findById(req.params.id);
-    console.log(materia)
+    // console.log(materia)
      res.status(200).json({
         'msn' : materia
      });
 }
-//edita los datos
+//--------------------------------edita los datos de la materia
 async function updateMateria (req, res, next) {
     const { id } = req.params;
     await Materia.update({_id: id}, req.body);//rq.body datos del formulario fronend
@@ -138,7 +103,7 @@ async function updateMateria (req, res, next) {
        'msn' : "actualizado correctamente"
     });
   }
-  //MATERIAS DE LA GESTION ACTUAL
+//------------------------muestra materias de la gestion actual
 function getmateriasG(req,res){
     Gestion.find({},(err,gestion)=>{
         if(err) return res.status(500).send({message:`error en la peticion: ${err}`})
@@ -161,5 +126,4 @@ module.exports={
     deletMateria,
     verEdit,
     getmateriasG,
-    // deletMateri
 }

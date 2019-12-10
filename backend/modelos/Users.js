@@ -14,7 +14,7 @@ const UserSchema=Schema({
     gestion:{type:String,default:'no tiene gestion'},
     pago:{type:Boolean,default:false},
     username:{type:String,default:'username'},//sera el ru para los estudiantes
-    password:{type:String,unique:true,required:true},
+    password:{type:String,required:true},
     materia_1:{type:String,default:'no programado'},
     materia_2:{type:String,default:'no programado'},
     materia_3:{type:String,default:'no programado'},

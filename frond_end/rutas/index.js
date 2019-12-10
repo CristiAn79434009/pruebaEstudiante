@@ -1,7 +1,7 @@
 'use strict'
 
 const express=require('express')
-const Estudiantecrtl=require('../controladores/estudiante')//exportando el controlador
+// const Logincrtl=require('../controladores/login')//exportando el controlador
 // const usercrtl=require('../controladores/user')
 const AdmcrtlGes=require('../controladores/admiGes')
 const AdmcrtlMat=require('../controladores/adminMat')
@@ -13,14 +13,23 @@ const Userscrtl=require('../controladores/user')
 const api=express.Router()
 
 
-///rutas////////////////////////////////direcciones para estudiantes
-//estudiante 
-api.get('/login',Estudiantecrtl.inicio)
-////////////////7
-api.post('/ingreso',Estudiantecrtl.ingreso)
-//////
-api.get('/ver',Estudiantecrtl.authestudiante1)
-//////GESTION
+///rutas////////////////////////////////direcciones para logueo
+//login-principal 
+api.get('/login',AdmcrtlUs.inicio)
+// api.get('/login',Logincrtl.inicio)
+////////////////enviando el los datos por el login
+api.post('/ingreso',AdmcrtlUs.ingreso)
+// api.post('/ingreso',Logincrtl.ingreso)
+// api.get('/homeE',Logincrtl.homeest)
+// //////PAGINA BIENVENIDA
+// api.get('/inicial',AdmcrtlUs.welcom)
+api.get('/token',AdmcrtlUs.token)
+api.get('/tokeng',AdmcrtlGes.tokeng)
+api.get('/tokenm',AdmcrtlMat.tokenm)
+//PAGINA INICIAL
+api.get('/home',AdmcrtlUs.home)
+// api.get('/lo',AdmcrtlUs.cabezera)
+//////GESTION//////////////////////
 api.get('/gestion',AdmcrtlGes.index)
 api.post('/crearG',AdmcrtlGes.crearG)
 api.post('/closeGes',AdmcrtlGes.cerrarGestion)
@@ -51,16 +60,27 @@ api.get('/indexD',AdmcrtlUs.indexDoc)
 api.get('/userlistD',AdmcrtlUs.usersGDoc)
 api.get('/formD',AdmcrtlUs.formDoc)
 api.get('/delUD/:id',AdmcrtlUs.deleteD)//ELIMINAR user
-///estudiantes
+api.get('/homeD/:id',AdmcrtlUs.homedoc)
+// api.get('/homeDOC',AdmcrtlUs.homeD)
+///estudiantes/
 api.get('/indexE',AdmcrtlUs.indexEst)
 api.get('/userlistE',AdmcrtlUs.usersGEst)
 api.get('/formE',AdmcrtlUs.formEst)
 api.get('/delUE/:id',AdmcrtlUs.deleteE)//ELIMINAR user
-/////
+api.get('/homeE/:id',AdmcrtlUs.homeest)
+// api.get('/homeEST',AdmcrtlUs.homeE)
+
+////////////////////////////////////importar
+//priemera pagina
 api.get('/users',Userscrtl.indexUser)
+//para guardar los datos en output
 api.post('/usersSend',Userscrtl.save)
-api.post('/sendBD',Userscrtl.userSend)
-api.post('/crear',Userscrtl.crear)
+//aqui valida y muestra lista de repetidos si exiten
+api.get('/sendBD',Userscrtl.userSend)
+//envia datos
+api.post('/registrar',Userscrtl.registrarU)
+
+
 
 
 

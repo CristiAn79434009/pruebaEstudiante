@@ -5,12 +5,13 @@ const xlsxtojson = require("xlsx-to-json")
 // const xlstojson = require("xls-to-json")
 // const output=require('../output.json')
 
-
+//no se usa
 function saveArchivo(req,res){
     console.log(`storage location is ${req.hostname}/${req.file.path}`);
     return res.send(req.file);
 }
 ///controlando tipo de archivo mine
+//controla el tipo de archvo y muestra los datos que existen
 function save(req,res){
     let form=formidable.IncomingForm()
     form.parse(req,(err,fields,files)=>{})
@@ -20,15 +21,9 @@ function save(req,res){
             var name=aleatorio+file.name
             file.name=name
             file.path= './archivos/'+file.name
-            
-            // // return res.send({message:'gracias'})
-            // console.log(file.name)
-            
         }else{return res.send({message:'ingrese un archivo excel por favor'})}
-        
     })
     form.on('file',(name,file)=>{
-        // console.log(file.name)
         xlsxtojson({
             // input: "./excel-to-json.xlsx",  // input xls
             input: "./archivos/"+file.name, 
@@ -41,15 +36,17 @@ function save(req,res){
                 // console.log(result);
                 // res.json(result)
                 res.send(result);
-                
-              
             }
         })
   
     })
 }
+function mostrar(req,res){
+    console.log(req.body.length)
+}
 module.exports={
     saveArchivo,
-    save
+    save,
+    mostrar
    
 }

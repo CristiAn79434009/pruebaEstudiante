@@ -1,7 +1,6 @@
 'use strict'
-
-const Gestion=require('../modelos/Gestion')//usando el equema de estudiantes
-
+const Gestion=require('../modelos/Gestion')//usando el equema de gestiones
+//////////////////////////////////no se usa
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<>>>><<>
 //para ves si hay gestiones o gestiones vacias
 function getpruebages(req,res){
@@ -95,7 +94,7 @@ function cierreGestion(req,res){
 
 //exportando todas las funciones 
 module.exports={
-    getpruebages
+    //getpruebages
     // getGestion,
     // saveGestion,
     // updateGestion,

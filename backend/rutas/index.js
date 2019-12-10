@@ -4,12 +4,12 @@ const express=require('express')
 const Usercrtl=require('../controles/usercrtl')//exportando el controlador
 const Materiacrtl=require('../controles/materiascrtl')
 const Gestioncrtl=require('../controles/gestioncrtl')
-const Ingresocrtl=require('../controles/ingreso')
+const Ingresocrtl=require('../controles/logincrtl')
 const Subircrtl=require('../controles/subir _archivos')
 const pruebas=require('../controles/pruebas')
 
 const authUs=require('../middlewares/authUsers')
-const Materia=require('../modelos/Materias')
+// const Materia=require('../modelos/Materias')
 
 
 const api=express.Router()
@@ -34,80 +34,85 @@ const upload = multer({storage});
 
 
 //<<<<<<_----------------  rutas de users ------------->>>>>>
-//ver todos los users 
-api.get('/users',Usercrtl.getUsers)
+//ver todos los usuarios 
+api.get('/users',authUs,Usercrtl.getUsers)
+//usuarios de la ultimagestion
+api.get('/usersG',authUs,Usercrtl.getUsersges)
+//muestra catidades de usuarios por rol de la ultima gestion creada
+api.get('/usercant',authUs,Usercrtl.cant)
 //busqueda de user por id //NO CE USA
 api.get('/user/:userId',Usercrtl.getUser)
-//registrar user
+//registrar usuario individualmente
 api.post('/user',Usercrtl.saveUser)
-//editar user por id//NO CE USA
-// api.put('/user/:userId',Usercrtl.updateUser)//
-//eliminar user por el id//NO CE USA
-// api.delete('/user/:userId',Usercrtl.deletUser)//
 //mostrar los usuarios de la ultia gestion(estudiantes,docentes,admin)
-api.get('/usersGE',Usercrtl.getUsE)
-api.get('/usersGD',Usercrtl.getUsD)
-api.get('/usersGA',Usercrtl.getUsA)
+api.get('/usersGE',authUs,Usercrtl.getUsE)
+api.get('/usersGD',authUs,Usercrtl.getUsD)
+api.get('/usersGA',authUs,Usercrtl.getUsA)
 //FUNCIONES PARA eliminar usuarios
-api.get('/deleteU/:id',Usercrtl.deletU)
+api.get('/deleteU/:id',authUs,Usercrtl.deletU)
 //Edicion
 //devuelve user  que queremos editar
-api.get('/vereditU/:id',Usercrtl.verEdit)
+api.get('/vereditU/:id',authUs,Usercrtl.verEdit)
 //realiza la edicion del user////////////////////
 api.post('/editU/:id',Usercrtl.updateUser)
 //cambia el estado del pago
-api.get('/turn/:id',Usercrtl.pagoU)
-   
+api.get('/turn/:id',authUs,Usercrtl.pagoU)
+//////////////////////////////////////////////////////////////////////////   
 
 
-////------
-api.get('/user1',Usercrtl.User)
-api.post('/mostrar1',Usercrtl.mostar)
+////------<<<<<<<<<<<<<<<<<<<<<<sube barios datos a la base de datos
+api.post('/user1',Usercrtl.User)//este para guardar varios datos del excel
+// api.post('/mostrar1',Usercrtl.mostar)
+//<<<<<<_----------------  ruta para subir archivos ------------->>>>>>
+api.post('/subir',upload.single('file'),Subircrtl.saveArchivo)//1ro
+api.post('/subir1',Subircrtl.save)//este se usa para subir un archivo excel
+/////////////////////////////////////////////////////////////////7
+api.post(`/output`,Subircrtl.mostrar)
+
 
 //<<<<<<_----------------  rutas de materias ------------->>>>>>
-//ver todos los director 
-api.get('/materias',Materiacrtl.getMaterias)
-//busqueda de director por id 
-api.get('/materia/:materiaId',Materiacrtl.getMateria)
-//registrar docente
+//ver todos las materias
+api.get('/materias',authUs,Materiacrtl.getMaterias)
+//busqueda de dmateria por id 
+api.get('/materia/:materiaId',authUs,Materiacrtl.getMateria)
+//registrar nueva materia
 api.post('/materia',Materiacrtl.saveMateria)
-//editar director por id
-// api.put('/materia/:materiaId',Materiacrtl.updateMateria)
-// //eliminar director por el id
-// api.delete('/deletemat/:materiaId',Materiacrtl.deletMateri)
-//------------------------------eliminar_materia
- api.get('/delete/:id',Materiacrtl.deletMateria)
+//eliminar_materia
+ api.get('/delete/:id',authUs,Materiacrtl.deletMateria)
 //devuelve la tarea que queremos editar
-api.get('/veredit/:id',Materiacrtl.verEdit)
-//realiza la edicion de la tarea////////////////////
+api.get('/veredit/:id',authUs,Materiacrtl.verEdit)
+//realiza la edicion de la materia
 api.post('/edit/:id',Materiacrtl.updateMateria)
-//otra
-api.get('/VMG',Materiacrtl.getmateriasG)
+//muestra las materias de la gestion actual o ultima gestion cursante
+api.get('/VMG',authUs,Materiacrtl.getmateriasG)
+///////////////////////////////////////////////////////////////////
+
+
 //<<<<<<_----------------  rutas de gestion ------------->>>>>>
-//ver todos los director 
-api.get('/gestiones',Gestioncrtl.getGestiones)
-//busqueda de director por id 
-api.get('/gestion/:gestionId',Gestioncrtl.getGestion)
+//ver todos las gestiones                                       
+api.get('/gestiones',authUs,Gestioncrtl.getGestiones)
+//busqueda de gestion por id 
+api.get('/gestion/:gestionId',authUs,Gestioncrtl.getGestion)
 //registrar docente
 api.post('/gestion',Gestioncrtl.saveGestion)
 //editar director por id
 api.put('/gestion/:gestionId',Gestioncrtl.updateGestion)
 //eliminar director por el id
-api.delete('/gestion/:gestionId',Gestioncrtl.deletGestion)
+api.delete('/gestion/:gestionId',authUs,Gestioncrtl.deletGestion)
 //cierre de gestion
 api.post('/closeGestion',Gestioncrtl.cierreGestion)
-
-//<<<<<<_----------------  ruta para subir archivos ------------->>>>>>
-api.post('/subir',upload.single('file'),Subircrtl.saveArchivo)//1ro
-api.post('/subir1',Subircrtl.save)
-////////////////////////pruebas///
-api.get('/pru',pruebas.getpruebages)
+//////////////////////////////////////////////////////////////////
 
 
-//////////////////////////////////////////////////
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>login<<<<<<<<<<<<<<<<<<<<<<<<<<<
+api.post('/signin',Ingresocrtl.ingreso)//logeo
+/////////////////////////////////////////////////////////
+
 //registrar user
 //api.post('/signup',Estudiantecrtl.registroEst)//registro/
-api.post('/signin',Ingresocrtl.ingreso)//ingresar
+// api.post('/signin',Ingresocrtl.ingreso)//ingresar
+// api.post('/decode',Usercrtl.decode)//decodificador
 
 // ///para el usuario desde aqui ruta sin controlador
 api.get('/private',authUs, function(req,res){

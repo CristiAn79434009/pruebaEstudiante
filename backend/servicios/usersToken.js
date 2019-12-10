@@ -7,7 +7,7 @@ const config=require('../configuracion')///para la clave de tokens
 //crea token
 function createToken(user){
     const payload={
-        sub:user._id,
+        sub:user,
         iat:moment().unix(),//cuando fue creado el token 
         exp:moment().add(14,'days').unix(),//cuando va expirar o caducar token
     }

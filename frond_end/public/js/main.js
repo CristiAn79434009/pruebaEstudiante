@@ -12,6 +12,25 @@ $(document).ready(function(){
         var dropMenu=$(this).next('ul');
         dropMenu.slideToggle('slow');
     });
+    ///////////////////////////
+    $('.import-dates').on('click', function(e){
+        e.preventDefault();
+        var LinkExitSystem=$(this).attr("data-href");
+        swal({
+            title: "¿Estás seguro?",
+            text: "Quieres agregar los usuarios a la base de datos ",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, importar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){
+            window.location=LinkExitSystem; 
+        });  
+    });
+    ///////////////////7
     $('.exit-system-button').on('click', function(e){
         e.preventDefault();
         var LinkExitSystem=$(this).attr("data-href");

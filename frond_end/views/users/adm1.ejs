@@ -1,6 +1,33 @@
 <!-- cuando pueden registrar usuarios  pero no hay ni uno solo creado-->
 <% include ../parcial/_head %>
 <% include ../parcial/_menus %>  
+
+<script type="text/javascript">
+    // const myHeaders=new Headers();
+    // myHeaders.append('authorization',`Bearer ${localStorage.token}`)
+  
+    // fetch('/indexA',{
+    //     headers:myHeaders
+
+    // })
+    const myHeaders=new Headers();
+            myHeaders.append('token',` ${localStorage.token}`)
+            myHeaders.append('rol',` ${localStorage.rol}`)
+            myHeaders.append('_id',` ${localStorage.id}`)
+            // console.log(localStorage.token)
+            if(localStorage.rol=='administrador'){
+            
+                fetch('/token',{
+                    headers:myHeaders
+                })
+                fetch('/tokeng',{
+                    headers:myHeaders
+                })
+                fetch('/tokenm',{
+                    headers:myHeaders
+                })
+            }else{window.location.replace('/login')}
+</script>
 <div class="container">
                 <div class="page-header">
                 <h1 class="all-tittles">Sistema de laboratorio <small>Administración Usuarios</small></h1>

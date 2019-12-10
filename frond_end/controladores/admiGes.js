@@ -1,22 +1,60 @@
 'use strict'
 const fetch = require('node-fetch')
+
+var datos = {}
+function data1 (data, id){
+    
+    let algo = datos[id];
+    // console.log(algo)
+    if(!algo){
+        algo = datos[id]={
+            esto: data,
+            qty:0
+        };
+        
+    }
+    algo.qty++;
+}
+
+
+
+var cabezera
+
+function tokeng(req,res){
+    cabezera=req.headers//recupernado
+    if(req.headers.rol=='administrador'){
+        data1(req.headers,req.headers._id)
+    }else{res.redirect('/login')}
+
+    // console.log(cabezera,'este tken de gestion')
+    //ata1(req.headers, req.headers._id)
+}
 //pagina principal de crear gestiones
 function index(req,res){
-    fetch('http://localhost:3000/api/gestiones')
-    .then(res => res.json())
-    .then(data => {
-        //si existe una gestion programada recientemente
-        if(data.message==undefined){
-            res.render('./gestiones/gestion2',{data}) 
-        //para que pueda crear gestiones  
-        }else{
-            res.render('./gestiones/gestion1')
-        }
-    })
-    .catch(error => console.error('Error:', error))
+    
+    if(datos[cabezera._id].esto.rol=='administrador'){
+        var token=({authorization:`Bearer ${datos[cabezera._id].esto.token}`})
+        fetch('http://localhost:3000/api/gestiones',{headers:token})
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data.gestion.length)
+            // if(data.gestion[data.gestion.length-1].nombre=='nada'){}
+            //si existe una gestion programada recientemente
+            if(data.message==undefined){
+                
+                res.render('./gestiones/gestion2',{data}) 
+            // //para que pueda crear gestiones  
+            }else{
+                res.render('./gestiones/gestion1')
+            }
+        })
+        .catch(error => console.error('Error:', error))
+    }else{res.redirect('/login')}
 }
 ////crear gestion enviar datos y recivir mensaje
 function crearG(req, res) { 
+    if(datos[cabezera._id].esto.rol=='administrador'){
+        var token=({authorization:`Bearer ${datos[cabezera._id].esto.token}`})
     var gestion = {
       nombre:req.body.nombre,
     }
@@ -27,7 +65,7 @@ function crearG(req, res) {
             'Content-Type': 'application/json'
         }
     }
-    fetch('http://localhost:3000/api/gestion',esto)
+    fetch('http://localhost:3000/api/gestion',esto,{headers:token})
     .then(res => res.json())
     .then(data => {
         console.log(data)
@@ -35,7 +73,7 @@ function crearG(req, res) {
             res.render('./gestiones/gestion1',{data})
             
         }else{ 
-            fetch('http://localhost:3000/api/gestiones')
+            fetch('http://localhost:3000/api/gestiones',{headers:token})
             .then(res => res.json())
             .then(data => {
                 //cuando exista una gestion vigente
@@ -50,26 +88,33 @@ function crearG(req, res) {
         }   
     })
     .catch(error => console.error('Error:', error))
+    }else{res.redirect('/login')}
 };
 //funcion para listar gestiones
 function listarG(req,res){
-    fetch('http://localhost:3000/api/gestiones')
+    if(datos[cabezera._id].esto.rol=='administrador'){
+    var token=({authorization:`Bearer ${datos[cabezera._id].esto.token}`})
+    fetch('http://localhost:3000/api/gestiones',{headers:token})
     .then(res => res.json())
     .then(data => {
         // console.log(data)
-        //si existe una gestion programada recientemente
+        // si existe una gestion programada recientemente
         if(data.message==undefined){
             res.render('./gestiones/gestion3list',{data}) 
-        //para que pueda crear gestiones  
+        // //para que pueda crear gestiones  
         }else{
             res.render('./gestiones/gestion1')
         }
     })
     .catch(error => console.error('Error:', error))
+    }else{res.redirect('/login')}
 }
 //funcion para cerrar gestion
 function cerrarGestion(req,res){
-    // console.log(req.body.nombre)
+    // console.log(datos)
+    if(datos[cabezera._id].esto.rol=='administrador'){
+        var token=({authorization:`Bearer ${datos[cabezera._id].esto.token}`})
+        // console.log(token)
     var gestion={
       nombre:req.body.nombre,
     }
@@ -80,13 +125,14 @@ function cerrarGestion(req,res){
             'Content-Type': 'application/json'
         }
     }
-    fetch('http://localhost:3000/api/closeGestion',esto)
+    fetch('http://localhost:3000/api/closeGestion',esto,{headers:token})
     .then(res => res.json())
     .then(data => {
         {res.render('./gestiones/gestion1',{data})}
-        // console.log(data)
+        console.log(data)
     })
     .catch(error => console.error('Error:', error))
+    }else{res.redirect('/login')}
 }
 /////////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ///>>>>>>>>>>>>>crear usuarios<<<<<<<<<<<
@@ -131,5 +177,7 @@ module.exports={
     listarG,
     //////
     indexEst,
-    userSend
+    userSend,
+    //
+    tokeng
 }

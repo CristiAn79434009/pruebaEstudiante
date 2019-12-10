@@ -1,6 +1,33 @@
 <% include ../parcial/_head %>
 <% include ../parcial/_menus %>
-
+<!-- <script type="text/javascript">
+        const myHeaders=new Headers();
+        myHeaders.append('authorization',`Bearer ${localStorage.token}`)
+      
+        fetch('/formA',{
+            headers:myHeaders
+        })
+    </script> -->
+    <script type="text/javascript">
+        const myHeaders=new Headers();
+                myHeaders.append('token',` ${localStorage.token}`)
+                myHeaders.append('rol',` ${localStorage.rol}`)
+                myHeaders.append('_id',` ${localStorage.id}`)
+                // console.log(localStorage.token)
+                if(localStorage.rol=='administrador'){
+                
+                    fetch('/token',{
+                        headers:myHeaders
+                    })
+                    fetch('/tokeng',{
+                        headers:myHeaders
+                    })
+                    fetch('/tokenm',{
+                        headers:myHeaders
+                    })
+                }else{window.location.replace('/login')}
+    </script>
+<h1><%=c%></h1>
 <div class="container-fluid col-md-12" > 
         <div class="container-flat-form"  >
             <div class="title-flat-form title-flat-blue" >Registrar un nuevo Administrador</div>
@@ -47,8 +74,8 @@
                                 <label>C.I.</label>
                             </div>
                     </div>
-                      
                     <input type="hidden" name="rol" value="administrador">
+                    <input type="hidden" name="token" value="<%=c%>">
                     
                     <div class="col-xs-12 col-sm-6 col-sm-offset-2 ">
                             <p class="text-center">

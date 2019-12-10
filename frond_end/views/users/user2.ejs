@@ -1,6 +1,25 @@
 <!-- cuando no existe materias programadas -->
 <% include ../parcial/_head %>
 <% include ../parcial/_menus %>
+<script type="text/javascript">
+    const myHeaders=new Headers();
+            myHeaders.append('token',` ${localStorage.token}`)
+            myHeaders.append('rol',` ${localStorage.rol}`)
+            myHeaders.append('_id',` ${localStorage.id}`)
+            // console.log(localStorage.token)
+            if(localStorage.rol=='administrador'){
+            
+                fetch('/token',{
+                    headers:myHeaders
+                })
+                fetch('/tokeng',{
+                    headers:myHeaders
+                })
+                fetch('/tokenm',{
+                    headers:myHeaders
+                })
+            }else{window.location.replace('/login')}
+</script>
         <div class="container">
             <div class="page-header">
               <h1 class="all-tittles">Sistema de Guias de Laboratorio <small>Administración Usuarios</small></h1>
