@@ -1,0 +1,61 @@
+<% include ../parcial/_head %>
+<% include ../parcial/_menus %>  
+<script type="text/javascript">
+    const myHeaders=new Headers();
+            myHeaders.append('token',` ${localStorage.token}`)
+            myHeaders.append('rol',` ${localStorage.rol}`)
+            myHeaders.append('_id',` ${localStorage.id}`)
+            // console.log(localStorage.token)
+            if(localStorage.rol=='administrador'){
+            
+                fetch('/token',{
+                    headers:myHeaders
+                })
+                fetch('/tokeng',{
+                    headers:myHeaders
+                })
+                fetch('/tokenm',{
+                    headers:myHeaders
+                })
+            }else{window.location.replace('/login')}
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 lead">
+            <ol class="breadcrumb">
+                <li><a href="formE">Nuevo estudiante</a></li>
+                <li> <a href="userlistE">Listado de estudiantes</a> </li>
+                <li class="active">Importar</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="container-flat-form ">
+        <div class="title-flat-form title-flat-blue ">Importar usuarios </div>
+        
+            <div class="row">
+               <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+
+                    <form action="/usersSend" method="POST" enctype="multipart/form-data">
+                        
+                        <div class="form-group">
+                            <input class="form-control" class="material-control tooltips-general" type="file" name="file" required accept=".xlsx">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                        </div>
+                        <!-- <button class="btn btn-primary btn-block" type="submit">
+                              subir
+                        </button> -->
+                        <p class="text-center">
+                        <button type="submit"  data-placement="bottom" title="Importar"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Importar</button>
+                        <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

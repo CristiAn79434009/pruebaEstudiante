@@ -1,0 +1,21 @@
+{{!-- <input type="button" value="ver"x> --}}
+   <h2>{{{resp.estudiante}}}</h2>
+
+<script type="text/javascript">
+    //let productlist=document.createElement('ul')
+    const myHeaders=new Headers();
+    myHeaders.append('authorization',`Bearer ${localStorage.token}`)
+    console.log(localStorage.token)
+
+    fetch('http://localhost:3000/api/estudiante',{
+        //method:'GET',
+        headers:myHeaders
+        //headers: myHeaders
+    })
+    .then(resp => resp.json())
+    .catch(error => console.error('Error:', error))
+    .then(resp =>{
+        console.log(resp)
+        //res.render('ver',resp)
+    })
+</script>

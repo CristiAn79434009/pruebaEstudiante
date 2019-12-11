@@ -1,0 +1,17 @@
+<% include partes/header_dir%>
+<div class="col-md-5">
+    <div class="card">
+        <div class="card-body">
+            <form action="/usersSend" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input class="form-control" type="file" name="file" accept=".xlsx">
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">
+                      subir
+                </button>
+            </form>
+      
+        </div>
+    </div>
+</div>
+<% include partes/footer%>

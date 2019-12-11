@@ -15,7 +15,6 @@ function ingreso(req,res){//vericar si existe email en la bd si existe damos acc
             
             if(err){res.status(500).send({message:`error en la peticion: ${err}`})}else{
                 if (user == null) { res.status(404).send({message:'El usuario no existe'})}else{
-                    // console.log(user)
                     if(user.rol=='administrador'){
                         return res.status(200).send({
                         message:'acceso al sistema',
@@ -24,50 +23,48 @@ function ingreso(req,res){//vericar si existe email en la bd si existe damos acc
                         id:user.id
                         })
                     }else{
-                    Gestion.find({},(err,gestion)=>{
-                        if(err){res.status(500).send({message:`error en la peticion: ${err}`})}else{
-                            if(gestion.length==0){ res.status(404).send({message:'no existe gestiones programadas'})}else{
-                                if(gestion[gestion.length-1].nombre=='nada'){res.status(404).send({message:'no existe gestiones programadas'})}else{
-                                    Users.find({"gestion":gestion[gestion.length-1].nombre},(err,user1)=>{
-                                        if(err){ res.status(500).send({message:`error en la peticion: ${err}`})}else
-                                        if(user1.length==0){ res.status(404).send({message:'usuario no regitrado'})}else
-                                        if(user1.rol=='estudiante' & user1.gestion==gestion[gestion.length-1].nombre){
-                                            if(user1.pago==true){
-                                                return res.status(200).send({
-                                                message:'acceso al sistema',
-                                                token:service1.createToken(user1),
-                                                rol:user1.rol,
-                                                id:user1.id
-                                                })  
-                                            }else{
-                                                res.status(404).send({message:'usted no pago por el servicio....'})}
-                                        }else{
-                                            if(user1.rol=='docente'& user1.gestion==gestion[gestion.length-1].nombre){
-                                            return res.status(200).send({
-                                            message:'acceso al sistema',
-                                            token:service1.createToken(user),
-                                            rol:user.rol,
-                                            id:user.id
-                                            })
-                                        }else{console.log(user)}}
-    
-                                    })
-                                    
-                                    // if(user.rol=='docente'& user.gestion==gestion[gestion.length-1].nombre){
-                                    //     return res.status(200).send({
-                                    //     messagse:'acceso al sistema',
-                                    //     token:service1.createToken(user),
-                                    //     rol:user.rol,
-                                    //     id:user.id
-                                    //     })
-                                    // }else{res.status(404).send({message:'usted aun no esta registrado'})}
-                                }
-                            }
-                        }
-                    })
+                        Gestion.find({},(err,gestion)=>{
+                            if(err){res.status(500).send({message:`error en la peticion: ${err}`})}else{
+                                if(gestion.length==0){ res.status(404).send({message:'no existe gestiones programadas'})}else{
+                                    if(gestion[gestion.length-1].nombre=='nada'){res.status(404).send({message:'no existe gestiones programadas'})}else{
+                                        Users.findOne({
+                                            username : username,
+                                            password : password,
+                                            gestion  : gestion[gestion.length-1].nombre,
+                                            }). exec ( (err,user1)=>{
+                                                if(err){res.status(500).send({message:`error en la peticion: ${err}`})}else{
+                                                    if (user1 == null) { res.status(404).send({message:'El usuario no existe'})}else{
+                                                        if(user1.rol=='estudiante' & user1.gestion==gestion[gestion.length-1].nombre){
+                                                            if(user1.pago==true){
+                                                                return res.status(200).send({
+                                                                message:'acceso al sistema',
+                                                                token:service1.createToken(user1),
+                                                                rol:user1.rol,
+                                                                id:user1.id
+                                                                })
+                                                            }else{res.status(404).send({message:'usted no pago por el servicio....'})}
+                                                        }else{
+                                                            if(user1.rol=='docente'& user1.gestion==gestion[gestion.length-1].nombre){
+                                                                return res.status(200).send({
+                                                                message:'acceso al sistema',
+                                                                token:service1.createToken(user1),
+                                                                rol:user1.rol,
+                                                                id:user1.id
+                                                                })
+                                                            }else{res.status(404).send({message:'usted aun no esta registrado'})}
+                                                        }
+                                                    }
+                                                }
+
+                                        })
+                                    }
+                                } 
+                            } 
+                        }) 
                     }
                 }
-            }           
+            }
+                      
         })   
 }
 module.exports={

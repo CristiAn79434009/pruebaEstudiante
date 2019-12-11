@@ -1,0 +1,57 @@
+<% include ../parcial/_head %>
+<% include ../parcial/_menus %>
+<!-- <h1><%=resp.message%></h1> -->
+        <!-- <script type="text/javascript">
+            if(localStorage.rol!='administrador'){
+                window.location.replace('/login')
+            }
+        </script> -->
+        <script type="text/javascript">
+            const myHeaders=new Headers();
+                    myHeaders.append('token',` ${localStorage.token}`)
+                    myHeaders.append('rol',` ${localStorage.rol}`)
+                    myHeaders.append('_id',` ${localStorage.id}`)
+                    // console.log(localStorage.token)
+                    if(localStorage.rol=='administrador'){
+                    
+                        fetch('/token',{
+                            headers:myHeaders
+                        })
+                        fetch('/tokeng',{
+                            headers:myHeaders
+                        })
+                        fetch('/tokenm',{
+                            headers:myHeaders
+                        })
+                    }else{window.location.replace('/login')}
+        </script>
+
+        <div class="container">
+            <div class="page-header">
+              <h1 class="all-tittles">Sistema guias de laboratorio <small>Inicio</small></h1>
+            </div>
+        </div>
+        <section class="full-reset text-center" style="padding: 40px 0;">
+            <article class="tile">
+                <div class="tile-icon full-reset"><i class="zmdi zmdi-face"></i></div>
+                <div class="tile-name all-tittles">administradores</div>
+                <div class="tile-num full-reset"><%=resp.a%></div>
+            </article>
+            <article class="tile">
+                <div class="tile-icon full-reset"><i class="zmdi zmdi-accounts"></i></div>
+                <div class="tile-name all-tittles">estudiantes</div>
+                <div class="tile-num full-reset"><%=resp.e%></div>
+            </article>
+            <article class="tile">
+                <div class="tile-icon full-reset"><i class="zmdi zmdi-male-alt"></i></div>
+                <div class="tile-name all-tittles">docentes</div>
+                <div class="tile-num full-reset"><%=resp.d%></div>
+            </article>
+            
+            <!----<article class="tile">
+                <div class="tile-icon full-reset"><i class="zmdi zmdi-trending-up"></i></div>
+                <div class="tile-name all-tittles" style="width: 90%;">reportes y estadísticas</div>
+                <div class="tile-num full-reset">&nbsp;</div>
+            </article>-->
+        </section>
+<% include ../parcial/footer %>       

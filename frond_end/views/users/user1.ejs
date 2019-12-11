@@ -1,0 +1,68 @@
+<!-- cuando no existe gestiones programadas -->
+<% include ../parcial/_head %>
+<% include ../parcial/_menus %>
+<script type="text/javascript">
+    const myHeaders=new Headers();
+            myHeaders.append('token',` ${localStorage.token}`)
+            myHeaders.append('rol',` ${localStorage.rol}`)
+            myHeaders.append('_id',` ${localStorage.id}`)
+            // console.log(localStorage.token)
+            if(localStorage.rol=='administrador'){
+            
+                fetch('/token',{
+                    headers:myHeaders
+                })
+                fetch('/tokeng',{
+                    headers:myHeaders
+                })
+                fetch('/tokenm',{
+                    headers:myHeaders
+                })
+            }else{window.location.replace('/login')}
+</script>
+        <div class="container">
+            <div class="page-header">
+              <h1 class="all-tittles">Sistema de Guias de Laboratorio <small>Administración Usuarios</small></h1>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <ul class="nav nav-tabs nav-justified"  style="font-size: 17px;">
+                <li role="presentation"  class="active"><a href="indexU">Administrador</a></li>
+                <!-- <li role="presentation"><a href="teacher">Docentes</a></li>
+                <li role="presentation"><a href="student">Estudiantes</a></li> -->
+            </ul>
+        </div>
+        <div class="container-fluid"  style="margin: 50px 0;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <img src="assets/img/user01.png" alt="user" class="img-responsive center-box" style="max-width: 110px;">
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
+                    Bienvenido a la sección para registrar nuevos administradores del sistema, debes de llenar todos los campos del siguiente formulario
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 lead">
+                    <ol class="breadcrumb">
+                      <li class="active">Nuevo administrador</li>
+                      <!-- <li><a href="listadmin">Listado de administradores</a></li> -->
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="container-flat-form">
+                <div class="title-flat-form title-flat-red">Primero debe crear una Gestion</div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
+          
+        <footer class="footer full-reset">
+            
+
+        </footer>
+    </div>
+</body>
+</html>

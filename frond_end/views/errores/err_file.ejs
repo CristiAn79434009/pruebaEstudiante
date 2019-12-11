@@ -1,0 +1,9 @@
+<% include ../parcial/_head %>
+<% include ../parcial/_menus %> 
+<% if(message=='ingrese un archivo excel por favor'){ %>
+    <script type="text/javascript">
+
+        {alert("<%=message%>")}
+        window.location.replace('/users')
+    </script>
+<% } %> 

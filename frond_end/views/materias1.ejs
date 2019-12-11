@@ -1,0 +1,28 @@
+<% include partes/header_dir%>
+  
+    <div class="container">
+        <div class="row">
+            <!-- form -->
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/crearMa" method="POST">
+                            <div class="form-group">
+                              <input class="form-control" type="text" name="nombre" placeholder="Nombre de la materia" required>
+                            </div>
+                            <div class="form-group">
+                              <input class="form-control" type="text" name="sigla" placeholder="Sigla de la materia"required>
+                            </div>
+                            <div class="form-group">
+                              <input class="form-control" type="number" max="4" min="1" name="grupo" placeholder="Grupo de la materia" required>
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit">
+                                  Agregar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% include partes/footer%>
